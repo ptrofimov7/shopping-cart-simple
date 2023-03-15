@@ -7,7 +7,7 @@ type IProduct = {
 
 
 type ICartItem = IProduct & {
-   quantity?: number,
+   quantity: number,
    sum?: number,
 }
 
