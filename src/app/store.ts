@@ -4,7 +4,7 @@ import cartReducer from '../features/shopping-cart/cartSlice';
 import productReducer from '../features/shopping-cart/productSlice';
 import saga from '../features/shopping-cart/saga';
 
-let sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware()
 const middleware = [...getDefaultMiddleware({thunk: false}), sagaMiddleware]
 
 export const store = configureStore({

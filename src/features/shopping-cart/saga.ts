@@ -6,7 +6,7 @@ import { fetchProducts } from "./productSlice";
 
 export function* fetchProductsSaga() {
   try {
-    let result: IProduct[] = yield call(() => getProducts());
+    const result: IProduct[] = yield call(() => getProducts());
     yield put(fetchProducts(result));
   } catch (e) {
     yield put({ type: "PRODUCTS_FETCH_FAILED" });

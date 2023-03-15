@@ -3,6 +3,7 @@ import { useAppSelector } from '../app/hooks'
 import { selectCartItems } from '../features/shopping-cart/cartSlice'
 import { CartItem } from '../features/shopping-cart/components/Cart'
 import Total from '../features/shopping-cart/components/Cart/Total'
+import { ICartItem } from '../features/shopping-cart/types'
 
 function Cart() {
 
@@ -13,7 +14,7 @@ function Cart() {
       <div className="cart__left">
         <div>
           <h3>Shopping Cart</h3>
-          {cart?.map((item) => (
+          {cart?.map((item: ICartItem) => (
             <CartItem
               key={item.id}
               id={item.id}

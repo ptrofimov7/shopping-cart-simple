@@ -17,19 +17,18 @@ function Home() {
       <div className="home">
          <div className="home__container">
             <div className="home__row">
-               {products.map((product: IProduct) => {
-                  return <Product
-                     id={product.id}
-                     name={product.name}
-                     price={product.price}
-                  />
-               })}
+               {products.map((product: IProduct) => <Product
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+               />
+               )}
             </div>
          </div>
-         <div className='shopping-cart' onClick={() => navigate('/cart')}>
+         <button type="button" className='shopping-cart' onClick={() => navigate('/cart')}>
             <ShoppingCart id='cartIcon' />
             <p>{totalItems}</p>
-         </div>
+         </button>
       </div>
    )
 }

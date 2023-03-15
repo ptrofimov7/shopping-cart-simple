@@ -1,6 +1,5 @@
 import './product.css'
 import { useAppDispatch } from '../../../../app/hooks';
-//import {addToCart} from '../redux/cartSlice';
 
 type ProductProps = {
   id: string,
@@ -8,7 +7,7 @@ type ProductProps = {
   price: number
 }
 
-function Product({id, name, price}: ProductProps) {
+function Product({ id, name, price }: ProductProps) {
 
   const dispatch = useAppDispatch()
 
@@ -26,14 +25,15 @@ function Product({id, name, price}: ProductProps) {
         alt="item"
       />
       <button
-        onClick={() => {}
-          // dispatch(addToCart({
-          //   id, title, image, price
-          // }))
-        }>Add to Cart
+      >Add to Cart
       </button>
     </div>
   )
 }
+
+// dispatch(addToCart({
+//   id, title, image, price
+// }))
+//
 
 export default Product

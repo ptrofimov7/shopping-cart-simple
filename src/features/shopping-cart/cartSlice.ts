@@ -13,17 +13,17 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<ICartItem>) => {
-      const item = state.data.find((item) => item?.id === action.payload.id);
-      if (item) {
-        item.quantity = (item.quantity || 0) + 1;
+      const foundedItem = state.data.find((item) => item?.id === action.payload.id);
+      if (foundedItem) {
+        foundedItem.quantity = (foundedItem.quantity || 0) + 1;
       } else {
         state.data.push({ ...action.payload, quantity: 1 });
       }
     },
     setQuantity: (state, action: PayloadAction<ICartItem>) => {
-      const item = state.data.find((item) => item.id === action.payload.id);
-      if (item) {
-        item.quantity = action.payload.quantity;
+      const foundedItem = state.data.find((item) => item.id === action.payload.id);
+      if (foundedItem) {
+        foundedItem.quantity = action.payload.quantity;
       } else {
         state.data.push({ ...action.payload });
       }
@@ -47,10 +47,9 @@ const selectCartItems = (state: RootState) => state.cart.data
 
 const selectAmountItems = createSelector(selectCartItems, (items) => items.length)
 
-const selectTotalSum = createSelector(selectCartItems, (items: ICartItem[]) => items.reduce((acc, cur) => {
-  acc += cur.price * cur.quantity
-  return acc
-}, 0))
+const selectTotalSum = createSelector(selectCartItems, (items: ICartItem[]) => items.reduce((acc, cur) => (
+   acc + cur.price * cur.quantity
+), 0))
 
 export {
   selectCartItems,
