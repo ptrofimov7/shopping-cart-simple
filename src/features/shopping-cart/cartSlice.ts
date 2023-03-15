@@ -1,6 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { ICartItem, IShoppingCartState } from './types';
+import { selectProductsWithId } from './productSlice';
+import { ICartItem, IProduct, IShoppingCartState } from './types';
 
 const initialState: IShoppingCartState = {
   data: [],
@@ -47,12 +48,22 @@ const selectCartItems = (state: RootState) => state.cart.data
 
 const selectAmountItems = createSelector(selectCartItems, (items) => items.length)
 
-const selectTotalSum = createSelector(selectCartItems, (items: ICartItem[]) => items.reduce((acc, cur) => (
-   acc + cur.price * cur.quantity
-), 0))
+const selectTotalSum = createSelector([ selectProductsWithId, selectCartItems], (products: Record<string, IProduct>, items: ICartItem[]) => items.reduce((acc, cur) => {
+  const selectedProduct = products[cur.id] as IProduct
+  return acc + (selectedProduct?.price || 0) * cur.quantity}, 0))
+
+  const selectCartItemsWithId = createSelector([selectCartItems], (items) => (items.reduce((acc, item) => ({
+    ...acc, [item.id]: item
+  }), {})))
+
+  const selectCartItemById = createSelector(
+    [selectCartItemsWithId, (state, itemId) => itemId],
+    (items, itemId) => items[itemId as keyof typeof items]
+  );
 
 export {
   selectCartItems,
+  selectCartItemById,
   selectAmountItems,
   selectTotalSum,
 }
