@@ -3,7 +3,7 @@ import { store } from './app/store'
 import { sagaActions } from "./features/shopping-cart/sagaActions";
 import { Routes, Route, BrowserRouter } from "react-router-dom"
 import Home from "./pages/Home";
-import { Cart } from "./features/shopping-cart/components";
+import Cart from "./pages/Cart";
 
 console.log(store.getState());
 
