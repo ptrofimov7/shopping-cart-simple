@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useAppSelector } from '../../../../app/hooks';
 import { selectProductById } from '../../productSlice';
 import { IProduct } from '../../types';
 import { StyledProduct } from './product.styled';
@@ -11,8 +11,6 @@ type ProductProps = {
 function Product({ id, onOpen }: ProductProps) {
 
   const selectedProduct = useAppSelector(state => selectProductById(state, id)) as IProduct
-
-  const dispatch = useAppDispatch()
 
   return (
     <StyledProduct>
@@ -33,10 +31,5 @@ function Product({ id, onOpen }: ProductProps) {
     </StyledProduct>
   )
 }
-
-// dispatch(addToCart({
-//   id, title, image, price
-// }))
-//
 
 export default Product
