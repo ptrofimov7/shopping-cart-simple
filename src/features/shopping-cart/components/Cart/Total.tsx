@@ -13,7 +13,7 @@ function Total() {
       <div>
         <p>
           total ({totalItems} items)
-          : <strong>${totalSum}</strong>
+          : <strong>${totalSum.toFixed(2)}</strong>
         </p>
       </div>
     </TotalSection>

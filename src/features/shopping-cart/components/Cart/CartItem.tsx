@@ -1,36 +1,36 @@
-// import { incrementQuantity, decrementQuantity, removeItem} from '../redux/cartSlice'
-import { useAppDispatch } from '../../../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
+import { removeItem, selectCartItemById } from '../../cartSlice'
+import { selectProductById } from '../../productSlice'
+import { ICartItem, IProduct } from '../../types'
 import { StyledCartItem } from './cartItem.styled'
 
 type CartItemProps = {
   id: string,
-  name: string,
-  price: number,
-  quantity?: number
+  onOpen: (id: string) => void,
 }
 
-function CartItem({id, name, price, quantity=0}: CartItemProps) {
+function CartItem({id, onOpen}: CartItemProps) {
   const dispatch = useAppDispatch()
-
+  const selectedProduct = useAppSelector(state => selectProductById(state, id)) as IProduct
+  const selectedCartItem = useAppSelector(state => selectCartItemById(state, id)) as ICartItem
   return (
     <StyledCartItem>
       <img className="cartItem__image" src='https://media.very.co.uk/i/very/P6LTG_SQ1_0000000071_CHARCOAL_SLf?$300x400_retinamobilex2$' alt='item'/>
       <div className="cartItem__info">
-        <p className="cartItem__title">{name}</p>
+        <p className="cartItem__title">{selectedProduct?.name}</p>
         <p className="cartItem__price">
           <small>$</small>
-          <strong>{price}</strong>
+          <strong>{selectedProduct?.price}</strong>
         </p>
-        {/* <div className='cartItem__incrDec'>
-          <button onClick={() => dispatch(decrementQuantity(id))}>-</button>
-          <p>{quantity}</p>
-          <button onClick={() => dispatch(incrementQuantity(id))}>+</button>
-        </div> */}
-        {/* <button
+        <div className='cartItem__incrDec'>
+          <p>{selectedCartItem?.quantity}</p>
+          <button onClick={() => onOpen(id)}>Edit</button>
+        </div>
+        <button
           className='cartItem__removeButton'
           onClick={() => dispatch(removeItem(id))}>
             Remove
-        </button> */}
+        </button>
       </div>
     </StyledCartItem>
   )

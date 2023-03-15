@@ -7,7 +7,19 @@ export const StyledCart = styled.div`
    padding: 20px 20px 0 20px;
    gap: 20px;
    flex: 1;
+   position: relative;
+.card__btn-link {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    display: block;
+    background: gray;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
 
+  }
  .cart__left{
    padding: 20px;
    width: 100%;
