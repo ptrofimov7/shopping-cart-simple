@@ -5,8 +5,6 @@ import { Routes, Route, BrowserRouter } from "react-router-dom"
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 
-console.log(store.getState());
-
 store.dispatch({ type: sagaActions.FETCH_PRODUCTS_SAGA })
 
 function App() {

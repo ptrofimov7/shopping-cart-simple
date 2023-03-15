@@ -27,4 +27,22 @@ export const ModalWrapper = styled.div`
     background: red;
     color: lightblue;
   }
+  .save-btn {
+   display: block;
+   margin-top: 20px;
+   padding: 10px 30px;
+   font-size: 18px;
+   border-radius: 10px;
+   background: orange;
+   cursor: pointer;
+  }
+  .quantity {
+   display: flex;
+   gap: 20px;
+   align-items:center;
+  }
+  .quantity input {
+   padding: 5px 15px;
+   border-radius: 10px;
+  }
 `;

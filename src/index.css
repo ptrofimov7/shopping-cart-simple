@@ -27,3 +27,8 @@ button,
 input {
   font-size: inherit;
 }
+
+.error {
+  color: red;
+  margin-top: 10px;
+}

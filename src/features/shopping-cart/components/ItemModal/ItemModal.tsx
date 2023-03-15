@@ -1,6 +1,7 @@
-import { Close, Save } from '@mui/icons-material';
-import { IconButton, TextField } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../../app/hooks';
 import { selectCartItemById } from '../../cartSlice';
 import { selectProductById } from '../../productSlice';
@@ -13,31 +14,41 @@ type ItemModalProps = {
    saveItem: (id: string, quantity: number) => void
 }
 
-function Modal ({id, closeItem, saveItem}: ItemModalProps) {
+function Modal({ id, closeItem, saveItem }: ItemModalProps) {
 
    const selectedProduct = useAppSelector(state => selectProductById(state, id)) as IProduct
    const selectedCart = useAppSelector(state => selectCartItemById(state, id)) as ICartItem
    const [quantity, setQuantity] = useState(selectedCart?.quantity || 0)
+   const { register, handleSubmit, formState: { errors } } = useForm()
+
+   const onSubmit = () => {
+      saveItem(id, quantity)
+      closeItem()
+   }
 
    return (
       <ModalWrapper onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-      <p>{selectedProduct?.name}</p>
-      <TextField type="number" id="outlined-basic" label="Quantity" variant="outlined" value={quantity} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(+e.target.value)} />
-      <IconButton aria-label="save" onClick={(e: React.MouseEvent) => {
-         e.stopPropagation()
-         saveItem(id, quantity)
-         // if (!title) {
-         //    alert('Title is required')
-         //    return
-         // }
-         // updateTask({ ...modalTaskData, title, labels: labelName?.map(label => label.id) })
-      }}>
-         <Save />
-      </IconButton>
-      <IconButton aria-label="close" onClick={closeItem}>
-         <Close />
-      </IconButton>
-   </ModalWrapper>
+         <form onSubmit={handleSubmit(onSubmit)}>
+            <p>{selectedProduct?.name}</p>
+            <label className='quantity'>
+               Quantity:
+               <input
+                  id='quantity'
+                  type='number'
+                  value={quantity}
+                  {...register("quantity", { min: 1, max: 999 })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setQuantity(+e.target.value)}
+               />
+            </label>
+            {errors.quantity && (
+               <p className='error'>Quantity should be at least 1!</p>
+            )}
+            <button type="submit" className='save-btn'>Save</button>
+            <IconButton aria-label="close" onClick={closeItem}>
+               <Close />
+            </IconButton>
+         </form>
+      </ModalWrapper>
    );
 };
 
