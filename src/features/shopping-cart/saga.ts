@@ -1,15 +1,15 @@
 import { call, takeEvery, put } from "redux-saga/effects";
-import { sagaActions } from "./sagaActions";
 import getProducts from "./api";
 import { IProduct } from "./types";
-import { fetchProducts } from "./productSlice";
+import { fetchProductsSuccess, fetchProductsFailure } from "./productSlice";
+import { sagaActions } from "./sagaActions";
 
 export function* fetchProductsSaga() {
   try {
     const result: IProduct[] = yield call(() => getProducts());
-    yield put(fetchProducts(result));
+    yield put(fetchProductsSuccess(result));
   } catch (e) {
-    yield put({ type: "PRODUCTS_FETCH_FAILED" });
+    yield put(fetchProductsFailure('Error with fetching products'));
   }
 }
 

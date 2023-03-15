@@ -12,16 +12,25 @@ const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    fetchProducts: (state, action: PayloadAction<IProduct[]>) => ({
-        ...state, data: action.payload
-      })
+    fetchProducts: (state) => {
+      state.status = 'loading'
     },
+    fetchProductsSuccess: (state, action: PayloadAction<IProduct[]>) => ({
+      ...state, data: action.payload, state: 'idle'
+    }),
+    fetchProductsFailure: (state, action: PayloadAction<string>) => {
+      state.status = 'failed'
+      state.error = action.payload
+    },
+  },
 });
 
 export default productSlice.reducer;
 
 export const {
-  fetchProducts
+  fetchProducts,
+  fetchProductsSuccess,
+  fetchProductsFailure,
 } = productSlice.actions;
 
 
