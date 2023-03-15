@@ -1,6 +1,6 @@
-import './cartItem.css'
 // import { incrementQuantity, decrementQuantity, removeItem} from '../redux/cartSlice'
 import { useAppDispatch } from '../../../../app/hooks'
+import { StyledCartItem } from './cartItem.styled'
 
 type CartItemProps = {
   id: string,
@@ -13,7 +13,7 @@ function CartItem({id, name, price, quantity=0}: CartItemProps) {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="cartItem">
+    <StyledCartItem>
       <img className="cartItem__image" src='https://media.very.co.uk/i/very/P6LTG_SQ1_0000000071_CHARCOAL_SLf?$300x400_retinamobilex2$' alt='item'/>
       <div className="cartItem__info">
         <p className="cartItem__title">{name}</p>
@@ -32,7 +32,7 @@ function CartItem({id, name, price, quantity=0}: CartItemProps) {
             Remove
         </button> */}
       </div>
-    </div>
+    </StyledCartItem>
   )
 }
 

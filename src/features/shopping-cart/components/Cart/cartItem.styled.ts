@@ -1,12 +1,15 @@
-.cartItem{
+import styled from "styled-components";
+
+export const StyledCartItem = styled.div`
+
    display: flex;
    margin-top: 20px;
    margin-bottom: 20px;
    border-bottom: 1px solid gainsboro;
    padding-bottom: 20px;
- }
 
- .cartItem:last-child{
+
+ &:last-child{
    border-bottom: none;
  }
 
@@ -88,11 +91,11 @@
  }
 
  @media(max-width:400px){
-   .cartItem{
-     flex-direction: column;
+   & {
+      flex-direction: column;
    }
-
    .cartItem__title{
      margin-top: 15px;
    }
  }
+`

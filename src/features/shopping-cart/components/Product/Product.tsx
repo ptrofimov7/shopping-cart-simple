@@ -1,5 +1,5 @@
-import './product.css'
 import { useAppDispatch } from '../../../../app/hooks';
+import { StyledProduct } from './product.styled';
 
 type ProductProps = {
   id: string,
@@ -12,7 +12,7 @@ function Product({ id, name, price }: ProductProps) {
   const dispatch = useAppDispatch()
 
   return (
-    <div className="item">
+    <StyledProduct>
       <div className="item__info">
         <p className="item__title">{name}</p>
         <p className="item__price">
@@ -27,7 +27,7 @@ function Product({ id, name, price }: ProductProps) {
       <button
       >Add to Cart
       </button>
-    </div>
+    </StyledProduct>
   )
 }
 

@@ -1,16 +1,16 @@
-import './cart.css'
 import { useAppSelector } from '../app/hooks'
 import { selectCartItems } from '../features/shopping-cart/cartSlice'
 import { CartItem } from '../features/shopping-cart/components/Cart'
 import Total from '../features/shopping-cart/components/Cart/Total'
 import { ICartItem } from '../features/shopping-cart/types'
+import { StyledCart } from './cart.styled'
 
 function Cart() {
 
   const cart = useAppSelector(selectCartItems)
 
   return (
-    <div className="cart">
+    <StyledCart>
       <div className="cart__left">
         <div>
           <h3>Shopping Cart</h3>
@@ -30,7 +30,7 @@ function Cart() {
         <Total/>
       </div>
 
-    </div>
+    </StyledCart>
   )
 }
 

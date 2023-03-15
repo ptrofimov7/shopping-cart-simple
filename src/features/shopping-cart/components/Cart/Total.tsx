@@ -1,32 +1,22 @@
-import './total.css'
 import { useAppSelector } from '../../../../app/hooks'
 import { selectAmountItems, selectTotalSum } from '../../cartSlice'
+import { TotalSection } from './total.styled'
 
 function Total() {
 
   const totalSum = useAppSelector(selectTotalSum)
   const totalItems = useAppSelector(selectAmountItems)
 
-//   const getTotal = () => {
-//     let totalQuantity = 0
-//     let totalPrice = 0
-//     cart.forEach(item => {
-//       totalQuantity += item.quantity
-//       totalPrice += item.price * item.quantity
-//     })
-//     return {totalPrice, totalQuantity}
-//   }
-
   return (
-    <div className="total">
+    <TotalSection>
       <h2>ORDER SUMMARY</h2>
       <div>
-        <p className="total__p">
+        <p>
           total ({totalItems} items)
           : <strong>${totalSum}</strong>
         </p>
       </div>
-    </div>
+    </TotalSection>
   )
 }
 

@@ -1,5 +1,6 @@
+import styled from "styled-components";
 
- .item{
+export const StyledProduct = styled.div`
    display: flex;
    flex-direction: column;
    z-index: 1;
@@ -9,20 +10,19 @@
    justify-content: space-between;
    background-color: white;
    padding: 20px;
- }
 
  .item__rating__star{
    color: #FEBD69;
  }
 
- .item > img{
+ & > img {
    max-height: 200px;
    width: 100%;
    object-fit: contain;
    margin-bottom: 15px;
  }
 
- .item > button {
+ & > button {
    background: #FFD814;
    margin-top: 10px;
    color: #111;
@@ -31,11 +31,11 @@
    border: none;
  }
 
- .item > button:hover {
+ & > button:hover {
    background: #f7d322;
  }
 
- .item > button:active {
+ & > button:active {
    background: #FFD814;
  }
 
@@ -58,7 +58,7 @@
  }
 
  @media(max-width: 600px){
-   .item{
+   & {
      margin-bottom: 10px;
    }
 
@@ -66,3 +66,4 @@
      justify-content: unset;
    }
  }
+`

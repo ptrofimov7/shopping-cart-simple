@@ -23,6 +23,7 @@ a {
   text-decoration: none;
 }
 
-button, input {
+button,
+input {
   font-size: inherit;
 }

@@ -1,11 +1,12 @@
-.cart{
+import styled from "styled-components";
+
+export const StyledCart = styled.div`
    display: flex;
    margin: 30px auto;
    height: max-content;
    padding: 20px 20px 0 20px;
    gap: 20px;
    flex: 1;
- }
 
  .cart__left{
    padding: 20px;
@@ -24,12 +25,11 @@
    margin-right: 10px;
    padding: 10px;
    border-bottom: 1px solid lightgray;
-
  }
 
 
  @media(max-width: 800px){
-   .cart{
+   & {
      flex-direction: column-reverse;
      margin: unset;
    }
@@ -38,3 +38,4 @@
      width: calc(100% - 40px);
    }
  }
+`
