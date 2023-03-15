@@ -36,13 +36,13 @@
     ],
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-        "import/no-extraneous-dependencies": [
-            "error",
-            {
-              "projectDependencies": false
-            }
-          ],
+        "import/no-extraneous-dependencies": "off",
         "no-unused-vars": "off",
+        "import/order": "off",
+        "import/prefer-default-export": "off",
+        "no-param-reassign": "off",
+        "react/button-has-type": "off",
+        "react/require-default-props": "off",
         "import/no-unresolved": 0,
         "import/extensions": [
             "error",
