@@ -1,7 +1,7 @@
-import { Cart } from "./Cart";
-import { Products } from "./Products";
+import { CartItem } from "./Cart";
+import { Product } from "./Product";
 
 export {
-   Cart,
-   Products
+   CartItem,
+   Product
 }

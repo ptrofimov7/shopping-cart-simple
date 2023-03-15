@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 import { IProduct, IProductState } from './types';
 
 const initialState: IProductState = {
@@ -25,3 +26,10 @@ export default productSlice.reducer;
 export const {
   fetchProducts
 } = productSlice.actions;
+
+
+const selectProducts = (state: RootState) => state.product.data
+
+export {
+  selectProducts
+}
