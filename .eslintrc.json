@@ -43,6 +43,8 @@
         "no-param-reassign": "off",
         "react/button-has-type": "off",
         "react/require-default-props": "off",
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/jsx-props-no-spreading": "off",
         "import/no-unresolved": 0,
         "import/extensions": [
             "error",
