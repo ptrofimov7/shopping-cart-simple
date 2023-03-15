@@ -5,8 +5,8 @@ type IProduct = {
    price: number,
 }
 
-
-type ICartItem = IProduct & {
+type ICartItem = {
+   id: string,
    quantity: number,
    sum?: number,
 }
