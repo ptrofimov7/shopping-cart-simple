@@ -1,6 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '../../../../app/hooks';
 import { selectCartItemById } from '../../cartSlice';
@@ -20,14 +20,40 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
    const selectedCart = useAppSelector(state => selectCartItemById(state, id)) as ICartItem
    const [quantity, setQuantity] = useState(selectedCart?.quantity || 0)
    const { register, handleSubmit, formState: { errors } } = useForm()
+   const ref = useRef<HTMLDivElement>(null)
+   const lastActiveElement = useRef<any>(null)
+
+   const handleClose = () => {
+      closeItem()
+      if (lastActiveElement.current) {
+         lastActiveElement.current?.focus()
+      }
+   }
 
    const onSubmit = () => {
       saveItem(id, quantity)
-      closeItem()
+      handleClose()
    }
 
+   useEffect(() => {
+      lastActiveElement.current = document.activeElement
+      if (ref.current) {
+         ref.current?.focus()
+      }
+   }, [])
+
    return (
-      <ModalWrapper onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+      <ModalWrapper
+         id="modal2"
+         ref={ref}
+         tabIndex={0}
+         onClick={(e: React.MouseEvent) => e.stopPropagation()}
+         onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+            e.stopPropagation()
+            if (e.key === 'Escape') {
+               handleClose()
+            }
+         }}>
          <form onSubmit={handleSubmit(onSubmit)}>
             <p>{selectedProduct?.name}</p>
             <label className='quantity'>
@@ -44,7 +70,7 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
                <p className='error'>Quantity should be at least 1!</p>
             )}
             <button type="submit" className='save-btn'>Save</button>
-            <IconButton aria-label="close" onClick={closeItem}>
+            <IconButton aria-label="close" onClick={handleClose}>
                <Close />
             </IconButton>
          </form>
