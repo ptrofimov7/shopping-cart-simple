@@ -19,8 +19,6 @@ type IProductState = {
 
 type IShoppingCartState = {
    data: Array<ICartItem>,
-   status: 'idle' | 'loading' | 'failed',
-   error: string | null | undefined,
 }
 
 export {

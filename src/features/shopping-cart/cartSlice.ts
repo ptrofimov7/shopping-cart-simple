@@ -5,8 +5,6 @@ import { ICartItem, IProduct, IShoppingCartState } from './types';
 
 const initialState: IShoppingCartState = {
   data: [],
-  status: 'idle',
-  error: ''
 }
 
 const cartSlice = createSlice({

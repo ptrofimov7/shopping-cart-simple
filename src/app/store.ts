@@ -3,11 +3,18 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import cartReducer from '../features/shopping-cart/cartSlice';
 import productReducer from '../features/shopping-cart/productSlice';
 import saga from '../features/shopping-cart/saga';
+import StorageService from '../services/storageService';
+import { listenerMiddleware } from './middleware';
 
 const sagaMiddleware = createSagaMiddleware()
-const middleware = [...getDefaultMiddleware({thunk: false}), sagaMiddleware]
+const middleware = [...getDefaultMiddleware({thunk: false}), sagaMiddleware, listenerMiddleware.middleware]
+
+const cartState = StorageService.get();
 
 export const store = configureStore({
+  preloadedState: {
+    cart: cartState === null ? { data: [] } : cartState.cart
+  },
   reducer: {
     cart: cartReducer,
     product: productReducer,

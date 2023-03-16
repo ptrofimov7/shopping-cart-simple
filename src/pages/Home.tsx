@@ -6,7 +6,7 @@ import { selectProducts, selectStatus } from '../features/shopping-cart/productS
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { incrementQuantity, selectAmountItems, setQuantity } from '../features/shopping-cart/cartSlice';
 import { StyledProducts } from './home.styled';
-import React, { useRef, useState } from 'react';
+import React, { SyntheticEvent, useRef, useState } from 'react';
 import { ItemModal } from '../features/shopping-cart/components/ItemModal';
 import { CircularProgress } from '@mui/material';
 
@@ -26,19 +26,19 @@ function Home() {
    const dragMovedElement = useRef<string>('');
 
    const drag = (id: string, e: React.DragEvent) => {
+      e.stopPropagation()
       dragMovedElement.current = id;
    };
 
-   const onDragEnter = (e: any) => {
-      dragMovedElement.current = '1';
+   const onDragEnter = (e: SyntheticEvent) => {
+      e.preventDefault()
    };
 
    const drop = (e: React.DragEvent) => {
-
-      if (!dragMovedElement.current) {
-         return
+      e.preventDefault()
+      if (dragMovedElement.current) {
+         dispatch(incrementQuantity({ id: dragMovedElement.current, quantity: 1 }))
       }
-      dispatch(incrementQuantity({ id: dragMovedElement.current, quantity: 1 }))
    };
 
    if (status === 'loading') {
@@ -67,16 +67,13 @@ function Home() {
                type="button"
                className='shopping-cart'
                onClick={() => navigate('/cart')}
-
+               onDragEnter={(e) => onDragEnter(e)}
+               onDragOver={(e) => e.preventDefault()}
+               onDragEnd={drop}
             >
                <ShoppingCart id='cartIcon' />
                <p>{totalItems}</p>
             </button>
-            <div style={{ width: 500, height: 500, background: 'red' }}
-               onDragEnter={(e) => onDragEnter(e)}
-               onDragOver={(e) => e.preventDefault()}
-               onDragEnd={drop}
-            >Dran N Drop here</div>
          </StyledProducts>
          {selectedId && <ItemModal id={selectedId} closeItem={closeItem} saveItem={saveItem} />}
       </>
