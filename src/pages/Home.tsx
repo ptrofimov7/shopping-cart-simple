@@ -69,7 +69,7 @@ function Home() {
                onClick={() => navigate('/cart')}
                onDragEnter={(e) => onDragEnter(e)}
                onDragOver={(e) => e.preventDefault()}
-               onDragEnd={drop}
+               onDrop={drop}
             >
                <ShoppingCart id='cartIcon' />
                <p>{totalItems}</p>
