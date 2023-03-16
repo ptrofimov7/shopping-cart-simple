@@ -16,7 +16,7 @@ const productSlice = createSlice({
       state.status = 'loading'
     },
     fetchProductsSuccess: (state, action: PayloadAction<IProduct[]>) => ({
-      ...state, data: action.payload, state: 'idle'
+      ...state, data: action.payload, status: 'idle'
     }),
     fetchProductsFailure: (state, action: PayloadAction<string>) => {
       state.status = 'failed'
@@ -35,6 +35,7 @@ export const {
 
 
 const selectProducts = (state: RootState) => state.product.data
+const selectStatus = (state: RootState) => state.product.status
 
 const selectProductIds = createSelector([selectProducts], (products) => (products.map(product => product.id)))
 
@@ -49,6 +50,7 @@ const selectProductById = createSelector(
 );
 
 export {
+  selectStatus,
   selectProducts,
   selectProductIds,
   selectProductsWithId,
