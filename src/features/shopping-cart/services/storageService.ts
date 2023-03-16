@@ -1,5 +1,5 @@
-import { RootState } from "../app/store";
-
+import { RootState } from "../../../app/store";
+// storage for saving cartState in localstorage
 const storageName = "cartState";
 
 export default class StorageService {
@@ -9,6 +9,6 @@ export default class StorageService {
   }
 
   static set(state: RootState) {
-   localStorage.setItem(storageName, JSON.stringify(state));
+    localStorage.setItem(storageName, JSON.stringify(state));
   }
 }

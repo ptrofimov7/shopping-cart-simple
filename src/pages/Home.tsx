@@ -23,6 +23,7 @@ function Home() {
    const saveItem = (id: string, quantity: number) => {
       dispatch(setQuantity({ id, quantity }))
    }
+   // pointer to dropped product for cart
    const dragMovedElement = useRef<string>('');
 
    const drag = (id: string, e: React.DragEvent) => {

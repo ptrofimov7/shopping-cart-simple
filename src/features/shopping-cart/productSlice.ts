@@ -27,12 +27,15 @@ const productSlice = createSlice({
 
 export default productSlice.reducer;
 
+// actions
+
 export const {
   fetchProducts,
   fetchProductsSuccess,
   fetchProductsFailure,
 } = productSlice.actions;
 
+// selectors
 
 const selectProducts = (state: RootState) => state.product.data
 const selectStatus = (state: RootState) => state.product.status
