@@ -1,5 +1,19 @@
 import styled from "styled-components";
 
+export const ModalLayout = styled.div`
+width: 100%;
+height: 100%;
+z-index: 2;
+background-color: #000;
+opacity: 0.5;
+position: fixed;
+top: 0;
+left: 0;
+display: block;
+margin: 0;
+padding: 0;
+`
+
 export const ModalWrapper = styled.div`
   background: white;
   position: absolute;

@@ -73,7 +73,7 @@ function Home() {
                onDrop={drop}
             >
                <ShoppingCart id='cartIcon' />
-               <p>{totalItems}</p>
+               <p>{String(totalItems)}</p>
             </button>
          </StyledProducts>
          {selectedId && <ItemModal id={selectedId} closeItem={closeItem} saveItem={saveItem} />}

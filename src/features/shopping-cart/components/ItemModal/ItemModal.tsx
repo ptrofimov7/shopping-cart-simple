@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../../app/hooks';
 import { selectCartItemById } from '../../cartSlice';
 import { selectProductById } from '../../productSlice';
 import { ICartItem, IProduct } from '../../types';
-import { ModalWrapper } from './itemModal.styled';
+import { ModalLayout, ModalWrapper } from './itemModal.styled';
 
 type ItemModalProps = {
    id: string,
@@ -21,6 +21,8 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
    const [quantity, setQuantity] = useState(selectedCart?.quantity || 0)
    const { register, handleSubmit, formState: { errors } } = useForm()
    const ref = useRef<HTMLDivElement>(null)
+   const refFirstElement = useRef<any>(null)
+   const refLastElement = useRef<any>(null)
    const lastActiveElement = useRef<any>(null)
 
    const handleClose = () => {
@@ -37,13 +39,24 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
 
    useEffect(() => {
       lastActiveElement.current = document.activeElement
-      if (ref.current) {
-         ref.current?.focus()
+      const focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
+      const modal = ref.current
+      if (modal) {
+         const focusableElements = Array.from(modal.querySelectorAll(focusableElementsString));
+         // The first focusable element within the modal window
+         refFirstElement.current = focusableElements?.[0];
+         // The last focusable element within the modal window
+         refLastElement.current = focusableElements[focusableElements.length - 1];
+         // Focus the window
+         refFirstElement.current.focus();
       }
    }, [])
 
    return (
+      <>
       <ModalWrapper
+         role='dialog'
+         aria-labelledby="change-item"
          id="modal2"
          ref={ref}
          tabIndex={0}
@@ -52,9 +65,32 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
             e.stopPropagation()
             if (e.key === 'Escape') {
                handleClose()
+               return;
+            }
+            // Listen for the Tab key
+            if (e.keyCode === 9) {
+               // If Shift + Tab
+               if (e.shiftKey) {
+                  // If the current element in focus is the first focusable element within the modal window...
+                  if (document.activeElement ===  refFirstElement.current) {
+                     e.preventDefault();
+                     // ...jump to the last focusable element
+                     refLastElement.current.focus();
+                  }
+                  // if Tab
+               } else {
+                  // If the current element in focus is the last focusable element within the modal window...
+                  // eslint-disable-next-line no-lonely-if
+                  if (document.activeElement ===  refLastElement.current) {
+                     e.preventDefault();
+                     // ...jump to the first focusable element
+                     refFirstElement.current.focus();
+                  }
+               }
             }
          }}>
          <form onSubmit={handleSubmit(onSubmit)}>
+            <h2 id="change-item">Change item</h2>
             <p>{selectedProduct?.name}</p>
             <label className='quantity'>
                Quantity:
@@ -75,6 +111,8 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
             </IconButton>
          </form>
       </ModalWrapper>
+      <ModalLayout onClick={handleClose} />
+      </>
    );
 };
 

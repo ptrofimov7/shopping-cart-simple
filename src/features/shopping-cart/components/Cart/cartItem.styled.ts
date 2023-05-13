@@ -22,6 +22,7 @@ export const StyledCartItem = styled.div`
    margin-top: 10px;
    border-radius: 5px;
    background-color: transparent;
+   cursor: pointer;
  }
 
  .cartItem__image{
