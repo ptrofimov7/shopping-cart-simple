@@ -1,3 +1,4 @@
+import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { removeItem, selectCartItemById } from '../../cartSlice'
 import { selectProductById } from '../../productSlice'
@@ -10,6 +11,7 @@ type CartItemProps = {
 }
 
 function CartItem({id, onOpen}: CartItemProps) {
+
   const dispatch = useAppDispatch()
   const selectedProduct = useAppSelector(state => selectProductById(state, id)) as IProduct
   const selectedCartItem = useAppSelector(state => selectCartItemById(state, id)) as ICartItem
@@ -36,4 +38,4 @@ function CartItem({id, onOpen}: CartItemProps) {
   )
 }
 
-export default CartItem
+export default React.memo(CartItem)

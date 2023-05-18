@@ -90,7 +90,7 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
             }
          }}>
          <form onSubmit={handleSubmit(onSubmit)}>
-            <h2 id="change-item">Change item</h2>
+            <h3 id="change-item">Change item</h3>
             <p>{selectedProduct?.name}</p>
             <label className='quantity'>
                Quantity:

@@ -1,4 +1,4 @@
-import { Product } from '../features/shopping-cart/components'
+import { Product, ProductList } from '../features/shopping-cart/components'
 import { ShoppingCart } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { IProduct } from '../features/shopping-cart/types';
@@ -6,7 +6,7 @@ import { selectProducts, selectStatus } from '../features/shopping-cart/productS
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { incrementQuantity, selectAmountItems, setQuantity } from '../features/shopping-cart/cartSlice';
 import { StyledProducts } from './home.styled';
-import React, { SyntheticEvent, useRef, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useRef, useState } from 'react';
 import { ItemModal } from '../features/shopping-cart/components/ItemModal';
 import { CircularProgress } from '@mui/material';
 
@@ -17,7 +17,7 @@ function Home() {
    const status = useAppSelector(selectStatus)
    const totalItems = useAppSelector(selectAmountItems) || 0
    const [selectedId, setSelectedId] = useState('')
-   const openItem = (id: string) => setSelectedId(id)
+   const openItem = useCallback((id: string) => setSelectedId(id), [])
    const closeItem = () => setSelectedId('')
    const dispatch = useAppDispatch()
    const saveItem = (id: string, quantity: number) => {
@@ -26,10 +26,10 @@ function Home() {
    // pointer to dropped product for cart
    const dragMovedElement = useRef<string>('');
 
-   const drag = (id: string, e: React.DragEvent) => {
+   const drag = useCallback((id: string, e: React.DragEvent) => {
       e.stopPropagation()
       dragMovedElement.current = id;
-   };
+   }, []);
 
    const onDragEnter = (e: SyntheticEvent) => {
       e.preventDefault()
@@ -54,7 +54,7 @@ function Home() {
       <>
          <StyledProducts>
             <div className="home__container">
-               <div className="home__row">
+               <ProductList>
                   {products.map((product: IProduct) => <Product
                      key={product.id}
                      id={product.id}
@@ -62,7 +62,7 @@ function Home() {
                      drag={drag}
                   />
                   )}
-               </div>
+               </ProductList>
             </div>
             <button
                type="button"
@@ -75,8 +75,9 @@ function Home() {
                <ShoppingCart id='cartIcon' />
                <p>{String(totalItems)}</p>
             </button>
-         </StyledProducts>
-         {selectedId && <ItemModal id={selectedId} closeItem={closeItem} saveItem={saveItem} />}
+         </StyledProducts >
+         {selectedId && <ItemModal id={selectedId} closeItem={closeItem} saveItem={saveItem} />
+         }
       </>
    )
 }

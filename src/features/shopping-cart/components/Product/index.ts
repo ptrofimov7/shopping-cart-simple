@@ -1,5 +1,7 @@
 import Product from './Product'
+import ProductList from './ProductList'
 
 export {
-   Product
+   Product,
+   ProductList,
 }

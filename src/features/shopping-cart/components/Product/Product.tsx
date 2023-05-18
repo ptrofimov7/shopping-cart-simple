@@ -11,7 +11,6 @@ type ProductProps = {
 }
 
 function Product({ id, onOpen, drag }: ProductProps) {
-
   const selectedProduct = useAppSelector(state => selectProductById(state, id)) as IProduct
 
   return (
@@ -36,4 +35,4 @@ function Product({ id, onOpen, drag }: ProductProps) {
   )
 }
 
-export default Product
+export default React.memo(Product)

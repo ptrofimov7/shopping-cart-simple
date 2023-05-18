@@ -11,7 +11,7 @@ export const TotalSection = styled.div`
   border-radius: 3px;
   min-width: 350px;
 
-& > h2{
+& > h3{
   font-weight: 400;
 }
 

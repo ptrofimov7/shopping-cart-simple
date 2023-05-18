@@ -9,7 +9,7 @@ function Total() {
 
   return (
     <TotalSection>
-      <h2>ORDER SUMMARY</h2>
+      <h3>ORDER SUMMARY</h3>
       <div>
         <p>
           total ({totalItems} items)

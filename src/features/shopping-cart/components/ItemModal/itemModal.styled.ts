@@ -28,7 +28,7 @@ export const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  h2 {
+  h3 {
     font-size: 3rem;
   }
   p {

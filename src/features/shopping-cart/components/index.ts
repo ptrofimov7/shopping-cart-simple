@@ -1,7 +1,9 @@
-import { CartItem } from "./Cart";
-import { Product } from "./Product";
+import { CartItem, CartList } from "./Cart";
+import { Product, ProductList } from "./Product";
 
 export {
    CartItem,
-   Product
+   CartList,
+   Product,
+   ProductList,
 }
