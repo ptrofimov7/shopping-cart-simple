@@ -1,24 +1,27 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createEntityAdapter } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { IProduct, IProductState } from './types';
 
-const initialState: IProductState = {
-  data: [],
+const productAdapter = createEntityAdapter<IProduct>()
+
+const initialState = productAdapter.getInitialState({
   status: 'idle',
   error: ''
-}
+} as IProductState)
 
 const productSlice = createSlice({
-  name: 'products',
+  name: 'product',
   initialState,
   reducers: {
     fetchProducts: (state) => {
       state.status = 'loading'
     },
-    fetchProductsSuccess: (state, action: PayloadAction<IProduct[]>) => ({
-      ...state, data: action.payload, status: 'idle'
-    }),
+    fetchProductsSuccess: (state, action: PayloadAction<IProduct[]>) => {
+      productAdapter.setAll(state, action.payload)
+      state.status = 'idle'
+    },
     fetchProductsFailure: (state, action: PayloadAction<string>) => {
+      productAdapter.removeAll(state)
       state.status = 'failed'
       state.error = action.payload
     },
@@ -37,25 +40,15 @@ export const {
 
 // selectors
 
-const selectProducts = (state: RootState) => state.product.data
-const selectStatus = (state: RootState) => state.product.status
-
-const selectProductIds = createSelector([selectProducts], (products) => (products.map(product => product.id)))
-
-const selectProductsWithId = createSelector([selectProducts], (products) => (products.reduce((acc, product) => ({
-  ...acc, [product.id]: product
-}), {})))
-
-
-const selectProductById = createSelector(
-  [selectProductsWithId, (state, productId) => productId],
-  (products, productId) => products[productId as keyof typeof products]
-);
-
-export {
-  selectStatus,
-  selectProducts,
-  selectProductIds,
-  selectProductsWithId,
-  selectProductById,
+export type ProductSlice = {
+  [productSlice.name]: ReturnType<typeof productSlice['reducer']>
 }
+
+export const {
+  selectAll: selectProducts,
+  selectById: selectProductById,
+  selectIds: selectProductIds,
+  selectEntities: selectProductEntities
+} = productAdapter.getSelectors<ProductSlice>((state: RootState) => state.product)
+
+export const selectStatus = (state: RootState) => state.product.status

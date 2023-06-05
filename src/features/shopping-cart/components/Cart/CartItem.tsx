@@ -15,6 +15,7 @@ function CartItem({id, onOpen}: CartItemProps) {
   const dispatch = useAppDispatch()
   const selectedProduct = useAppSelector(state => selectProductById(state, id)) as IProduct
   const selectedCartItem = useAppSelector(state => selectCartItemById(state, id)) as ICartItem
+
   return (
     <StyledCartItem>
       <img className="cartItem__image" src='https://media.very.co.uk/i/very/P6LTG_SQ1_0000000071_CHARCOAL_SLf?$300x400_retinamobilex2$' alt='item'/>

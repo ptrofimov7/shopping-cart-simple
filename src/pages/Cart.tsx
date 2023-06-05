@@ -1,16 +1,16 @@
 import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { selectCartItems, setQuantity } from '../features/shopping-cart/cartSlice'
+import { selectCartItemIds, setQuantity } from '../features/shopping-cart/cartSlice'
 import { CartItem, CartList } from '../features/shopping-cart/components/Cart'
 import Total from '../features/shopping-cart/components/Cart/Total'
 import { ItemModal } from '../features/shopping-cart/components/ItemModal'
-import { ICartItem } from '../features/shopping-cart/types'
 import { StyledCart } from './cart.styled'
+import { EntityId } from '@reduxjs/toolkit'
 
 function Cart() {
 
-   const cart = useAppSelector(selectCartItems)
+   const cartIds = useAppSelector(selectCartItemIds)
    const [selectedId, setSelectedId] = useState('')
    const openItem = useCallback((id: string) => setSelectedId(id), [])
    const closeItem = () => setSelectedId('')
@@ -24,10 +24,10 @@ function Cart() {
             <Link className='card__btn-link' to='/'>Back to Products</Link>
             <div className="cart__left">
                <CartList>
-                  {cart?.map((item: ICartItem) => (
+                  {cartIds?.map((id: EntityId) => (
                      <CartItem
-                        key={item.id}
-                        id={item.id}
+                        key={String(id)}
+                        id={String(id)}
                         onOpen={openItem}
                      />
                   ))}

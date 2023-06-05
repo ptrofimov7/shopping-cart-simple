@@ -1,19 +1,18 @@
 import { Product, ProductList } from '../features/shopping-cart/components'
 import { ShoppingCart } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import { IProduct } from '../features/shopping-cart/types';
-import { selectProducts, selectStatus } from '../features/shopping-cart/productSlice';
+import { selectProductIds, selectStatus } from '../features/shopping-cart/productSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { incrementQuantity, selectAmountItems, setQuantity } from '../features/shopping-cart/cartSlice';
 import { StyledProducts } from './home.styled';
 import React, { SyntheticEvent, useCallback, useRef, useState } from 'react';
 import { ItemModal } from '../features/shopping-cart/components/ItemModal';
 import { CircularProgress } from '@mui/material';
+import { EntityId } from '@reduxjs/toolkit';
 
 function Home() {
-
    const navigate = useNavigate()
-   const products = useAppSelector(selectProducts)
+   const productIds = useAppSelector(selectProductIds)
    const status = useAppSelector(selectStatus)
    const totalItems = useAppSelector(selectAmountItems) || 0
    const [selectedId, setSelectedId] = useState('')
@@ -55,9 +54,9 @@ function Home() {
          <StyledProducts>
             <div className="home__container">
                <ProductList>
-                  {products.map((product: IProduct) => <Product
-                     key={product.id}
-                     id={product.id}
+                  {productIds.map((id: EntityId) => <Product
+                     key={String(id)}
+                     id={String(id)}
                      onOpen={openItem}
                      drag={drag}
                   />

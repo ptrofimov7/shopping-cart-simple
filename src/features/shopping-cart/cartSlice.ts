@@ -1,42 +1,40 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
-import { selectProductsWithId } from './productSlice';
-import { ICartItem, IProduct, IShoppingCartState } from './types';
+import { createSelector, createSlice, PayloadAction, createEntityAdapter } from '@reduxjs/toolkit';
+import { ICartItem, IShoppingCartState } from './types';
 
-const initialState: IShoppingCartState = {
-  data: [],
-}
+const cartAdapter = createEntityAdapter<ICartItem>()
+
+const initialState = cartAdapter.getInitialState({ error: '' } as IShoppingCartState)
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<ICartItem>) => {
-      const foundedItem = state.data.find((item) => item?.id === action.payload.id);
+      const foundedItem = state.entities[action.payload.id] as ICartItem
       if (foundedItem) {
         foundedItem.quantity = (foundedItem.quantity || 0) + 1;
       } else {
-        state.data.push({ ...action.payload, quantity: 1 });
+        cartAdapter.addOne(state, { ...action.payload, quantity: 1 })
       }
     },
     setQuantity: (state, action: PayloadAction<ICartItem>) => {
-      const foundedItem = state.data.find((item) => item.id === action.payload.id);
+      const foundedItem = state.entities[action.payload.id] as ICartItem
       if (foundedItem) {
         foundedItem.quantity = action.payload.quantity;
       } else {
-        state.data.push({ ...action.payload });
+        cartAdapter.addOne(state, { ...action.payload })
       }
     },
     incrementQuantity: (state, action: PayloadAction<ICartItem>) => {
-      const foundedItem = state.data.find((item) => item.id === action.payload.id);
+      const foundedItem = state.entities[action.payload.id] as ICartItem
       if (foundedItem) {
         foundedItem.quantity += action.payload.quantity;
       } else {
-        state.data.push({ ...action.payload });
+        cartAdapter.addOne(state, { ...action.payload })
       }
     },
     removeItem: (state, action: PayloadAction<string>) => {
-      state.data = state.data.filter((item) => item.id !== action.payload);
+      cartAdapter.removeOne(state, action.payload)
     },
   },
 });
@@ -53,26 +51,24 @@ export const {
 } = cartSlice.actions;
 
 // selectors
-const selectCartItems = (state: RootState) => state.cart.data
 
-const selectAmountItems = createSelector(selectCartItems, (items) => (items?.length || 0))
-
-const selectTotalSum = createSelector([ selectProductsWithId, selectCartItems], (products: Record<string, IProduct>, items: ICartItem[]) => items.reduce((acc, cur) => {
-  const selectedProduct = products[cur.id] as IProduct
-  return acc + (selectedProduct?.price || 0) * cur.quantity}, 0))
-
-  const selectCartItemsWithId = createSelector([selectCartItems], (items) => (items?.reduce((acc, item) => ({
-    ...acc, [item.id]: item
-  }), {})))
-
-  const selectCartItemById = createSelector(
-    [selectCartItemsWithId, (state, itemId) => itemId],
-    (items, itemId) => items?.[itemId as keyof typeof items]
-  );
-
-export {
-  selectCartItems,
-  selectCartItemById,
-  selectAmountItems,
-  selectTotalSum,
+export type CartSlice = {
+  [cartSlice.name]: ReturnType<typeof cartSlice['reducer']>
 }
+
+export const {
+  selectById: selectCartItemById,
+  selectIds: selectCartItemIds,
+  selectAll: selectCartItems,
+  selectEntities: selectCartEntities
+} = cartAdapter.getSelectors<CartSlice>(
+  (state) => state[cartSlice.name]
+)
+
+export const selectAmountItems = createSelector(
+  selectCartItems,
+  (items: ICartItem[]) => {
+    if (!items ) return 0;
+    return (items?.map((item: ICartItem) => (item?.quantity || 0))
+    .reduce((acc: number, cur: number) => (acc + cur), 0) || 0)
+  })

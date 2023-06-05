@@ -8,17 +8,15 @@ type IProduct = {
 type ICartItem = {
    id: string,
    quantity: number,
-   sum?: number,
 }
 
 type IProductState = {
-   data: Array<IProduct>,
    status: 'idle' | 'loading' | 'failed',
    error: string | null | undefined,
 }
 
 type IShoppingCartState = {
-   data: Array<ICartItem>,
+   error: string | null | undefined,
 }
 
 export {
