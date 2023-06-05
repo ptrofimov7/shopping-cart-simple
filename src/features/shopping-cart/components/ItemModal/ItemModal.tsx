@@ -21,9 +21,9 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
    const [quantity, setQuantity] = useState(selectedCart?.quantity || 0)
    const { register, handleSubmit, formState: { errors } } = useForm()
    const ref = useRef<HTMLDivElement>(null)
-   const refFirstElement = useRef<any>(null)
-   const refLastElement = useRef<any>(null)
-   const lastActiveElement = useRef<any>(null)
+   const refFirstElement = useRef<HTMLElement | null>(null)
+   const refLastElement = useRef<HTMLElement | null>(null)
+   const lastActiveElement = useRef<HTMLElement | null>(null)
 
    const handleClose = () => {
       closeItem()
@@ -38,15 +38,15 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
    }
 
    useEffect(() => {
-      lastActiveElement.current = document.activeElement
+      lastActiveElement.current = document.activeElement as HTMLElement
       const focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
       const modal = ref.current
       if (modal) {
          const focusableElements = Array.from(modal.querySelectorAll(focusableElementsString));
          // The first focusable element within the modal window
-         refFirstElement.current = focusableElements?.[0];
+         refFirstElement.current = focusableElements?.[0] as HTMLElement;
          // The last focusable element within the modal window
-         refLastElement.current = focusableElements[focusableElements.length - 1];
+         refLastElement.current = focusableElements[focusableElements.length - 1] as HTMLElement;
          // Focus the window
          refFirstElement.current.focus();
       }
@@ -75,7 +75,7 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
                   if (document.activeElement ===  refFirstElement.current) {
                      e.preventDefault();
                      // ...jump to the last focusable element
-                     refLastElement.current.focus();
+                     refLastElement.current?.focus();
                   }
                   // if Tab
                } else {
@@ -84,7 +84,7 @@ function Modal({ id, closeItem, saveItem }: ItemModalProps) {
                   if (document.activeElement ===  refLastElement.current) {
                      e.preventDefault();
                      // ...jump to the first focusable element
-                     refFirstElement.current.focus();
+                     refFirstElement.current?.focus();
                   }
                }
             }
