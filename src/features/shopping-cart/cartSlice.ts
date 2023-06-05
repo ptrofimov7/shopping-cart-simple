@@ -69,6 +69,5 @@ export const selectAmountItems = createSelector(
   selectCartItems,
   (items: ICartItem[]) => {
     if (!items ) return 0;
-    return (items?.map((item: ICartItem) => (item?.quantity || 0))
-    .reduce((acc: number, cur: number) => (acc + cur), 0) || 0)
+    return (items?.reduce((acc: number, cur: ICartItem) => (acc + (cur?.quantity || 0)), 0) || 0)
   })
