@@ -14,7 +14,7 @@ const cartState = StorageService.get();
 
 export const store = configureStore({
   preloadedState: {
-    cart: !cartState?.cart ? { entities: [], ids: [], error: ''} : cartState.cart
+    cart: !cartState?.cart ? { entities: {}, ids: [], error: ''} : cartState.cart
   } as CartSlice,
   reducer: {
     cart: cartReducer,
